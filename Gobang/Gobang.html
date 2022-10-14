@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            display: block;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="850" height="850"></canvas>
+</body>
+<script>
+    var game = true;
+    var canvas = document.getElementById('canvas');
+    var c = canvas.getContext('2d');
+    var gezi = 50;              // 一个格子大小50
+    var kg = true;              // 声明一个变量,控制下的是黑棋还是白棋
+    var arr = [               // 声明一个数组,储存已经下了棋子的坐标
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
+    // 地图
+    function map() {
+        for (var i = 0; i < 17; i++) {
+            // 竖线
+            c.beginPath()
+            c.moveTo(i * gezi + 25, 25);
+            c.lineTo(i * gezi + 25, 825);
+            c.closePath();
+            c.stroke();
+            // 横线
+            c.beginPath();
+            c.moveTo(25, gezi * i + 25);
+            c.lineTo(825, gezi * i + 25);
+            c.closePath();
+            c.stroke();
+        }
+    }
+    // 点击获取当前位置(下棋子)
+    document.onclick = function (e) {
+        e = e || window.event;
+        var x = e.pageX - 25;
+        var y = e.pageY - 25;
+        x -= (canvas.offsetLeft);
+        y -= (canvas.offsetTop);
+        x = Math.round(x / 50);
+        y = Math.round(y / 50);
+        if (game) {
+            if (arr[y][x] == 0) {
+                kg = !kg;
+                qizi(x, y);
+            } else {
+                alert('你不能下在这里!');
+            }
+        } else {
+            alert('请刷新重新开始游戏');
+        }
+    }
+    // 生成棋子
+    function qizi(x, y) {
+        console.log(arr);
+        if (kg) {
+            c.beginPath();
+            c.arc(x * gezi + 25, y * gezi + 25, 23, 0, 360 * Math.PI / 180);
+            c.fillStyle = '#000';
+            c.fill();
+            c.stroke();
+            c.beginPath();
+            arr[y][x] = 1;
+            pd(x, y, 1);
+        } else {
+            c.beginPath();
+            c.arc(x * gezi + 25, y * gezi + 25, 23, 0, 360 * Math.PI / 180);
+            c.fillStyle = '#fff';
+            c.fill();
+            c.stroke();
+            c.beginPath();
+            arr[y][x] = 2;
+            pd(x, y, 2);
+        }
+    }
+
+    // 判断
+    function pd(x, y, z) {
+        var n1 = 0;      // x轴赢?
+        var n2 = 0;      // y轴赢?
+        var n3 = 0;      // 正斜?
+        var n4 = 0;      // 反斜?
+        // x
+        for (var i = x; i < 17; i++) {
+            if (arr[y][i] != z) {
+                break;
+            }
+            n1++;
+        }
+        for (var i = x; i >= 0; i--) {
+            if (arr[y][i] != z) {
+                break;
+            }
+            n1++;
+        }
+        // y
+        for (var i = y; i < 17; i++) {
+            if (arr[i][x] != z) {
+                break;
+            }
+            n2++;
+        }
+        for (var i = y; i >= 0; i--) {
+            if (arr[i][x] != z) {
+                break;
+            }
+            n2++;
+        }
+        // 反
+        for (var j = y, i = x; j < 17 && i >= 0; j++ , i--) {
+            console.log(j, i);
+            if (arr[j][i] != z) {
+                break;
+            }
+            n3++;
+        }
+        for (var j = y, i = x; j >= 0 && i < 17; j-- , i++) {
+            if (arr[j][i] != z) {
+                break;
+            }
+            n3++;
+        }
+        // 正
+        for (var j = y, i = x; j >= 0 && i >= 0; j-- , i--) {
+            if (arr[j][i] != z) {
+                break;
+            }
+            n4++;
+        }
+        for (var j = y, i = x; j < 17 && i < 17; j++ , i++) {
+            if (arr[j][i] != z) {
+                break;
+            }
+            n4++;
+        }
+        if (n1 > 5 || n2 > 5 || n3 > 5 || n4 > 5) {
+            if (z == 1) {
+                alert('黑棋赢');
+            } else {
+                alert('白棋赢');
+            }
+            game = false;
+        }
+    }
+
+
+    window.onload = function () {
+        map();
+    }
+
+
+</script>
+
+</html>

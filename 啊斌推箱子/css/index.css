@@ -1,0 +1,67 @@
+*{
+    margin: 0;
+     padding: 0;
+}
+#div1{
+    position: relative;
+    margin: 20px auto;
+    background-color: #eee;
+}
+.pos1{
+    width: 50px;
+    height: 50px;
+    background: #666;
+    float: left;
+}
+.pos2{
+    width: 50px;
+    height: 50px;
+    background:url(../images/wall.png) no-repeat;
+    background-size: cover;
+    float: left;
+}
+.pos3{
+    width: 50px;
+    height: 50px;
+    /* border-radius: 50%; */
+    background: url(../images/dot.png) no-repeat;
+    float: left;
+}
+.pos0{width: 50px;
+    height: 50px;
+    background:#666;
+    float: left;
+}
+.box{
+    width: 50px;
+    height: 50px;
+    background: url(../images/box.png) no-repeat;
+    background-size: cover;
+    position: absolute;
+}
+.person{
+    width: 50px;
+    height: 50px;
+    background: url(../images/person.png) no-repeat;
+    background-size: cover;
+    position: absolute;
+}
+
+.btn {
+    position: absolute;
+    right: 0;
+    top: 300px;
+    width: 100px;
+    height: 30px;
+    font-size: 20px;
+
+    background-color: #fff;
+    border: 1px solid #000;
+}
+
+.iNowlevel {
+    position: absolute;
+    height: 30px;
+    font-size: 20px;
+    background-color: #fff;
+}

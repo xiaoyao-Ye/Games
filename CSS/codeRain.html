@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html {
+            overflow: hidden;
+            /*溢出隐藏*/
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" style="background-color:#111"></canvas>
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        var c = canvas.getContext('2d');
+        var W = window.innerWidth;
+        var H = window.innerHeight;
+        canvas.width = W;
+        canvas.height = H;
+        var fontSize = 16;
+        var colunms = Math.floor(W / fontSize);
+        var drops = [];
+        for (var i = 0; i < colunms; i++) {
+            drops.push(0);
+        }
+        // ☀☾☼☆★♩♪♫♬☯❤♠♥♦♣♧♢♡♤
+        var str = '☀☾☼☆★♩♪♫♬☯❤♠♥♦♣♧♢♡♤';
+        function draw() {
+            // c.fillStyle = randColor();
+            c.fillStyle = 'rgba(0,0,0,0.05)';
+            c.fillRect(0, 0, W, H);
+            // c.beginPath();//起始一条路径，或重置当前路径。
+            c.font = fontSize + "px 微软雅黑";
+            c.fillStyle = '#00cc33';
+            for (var i = 0; i < colunms; i++) {
+                var index = Math.floor(Math.random() * str.length);
+                var x = i * fontSize;
+                var y = drops[i] * fontSize;
+                c.fillText(str[index], x, y);
+                if (y >= canvas.height && Math.random() > 0.99) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        function randColor() {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            return 'rgb(' + r + ',' + g + ',' + b + ')';
+        }
+        draw();
+        setInterval(draw, 30);
+    }
+</script>
+
+</html>

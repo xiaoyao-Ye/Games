@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>html5实现贪吃蛇小游戏</title>
+    <style>
+        #myCanvas {
+            box-shadow: 0 0 6px #000;
+        }
+    </style>
+</head>
+
+<body>
+    <br /><br /><br />
+    <input type="button" value="开始游戏" onclick="beg();"><br /><br /><br />
+    <canvas id="myCanvas" width="800" height="600"></canvas>
+
+
+    <script>
+        var canvas = document.getElementById("myCanvas");
+        var c = canvas.getContext("2d");
+        var gezi = 20;      // 格子宽高
+        var shec = 3;       // 初始长度
+        var she = []        // 身体长度
+        for (var i = 0; i < shec; i++) {
+            she[i] = new cell(i, 0, 39);
+        }
+        var head = she[shec - 1]     // 头部
+        // 初始食物
+        var foodx = Math.ceil(Math.random() * 39);
+        var foody = Math.ceil(Math.random() * 29);
+        var food = new Food(foodx, foody);
+        // 食物
+        function Food(x, y) {
+            this.x = x;
+            this.y = y;
+            return this;
+        }
+        // 画食物
+        function drawfood() {
+            c.fillStyle = 'orange';
+            c.beginPath();
+            c.rect(food.x * gezi, food.y * gezi, gezi, gezi);
+            c.closePath();
+            c.fill();
+        }
+        // 身体
+        function cell(x, y, d) {
+            this.x = x;
+            this.y = y;
+            this.d = d;
+            return this;
+        }
+        // 动作
+        function draw() {
+            c.clearRect(0, 0, 800, 600);
+            // 画布
+            for (var i = 1; i < 30; i++) {
+                c.strokeStyle = '#ccc'; // 线条颜色
+                c.beginPath();
+                c.moveTo(0, i * gezi);
+                c.lineTo(800, i * gezi);
+                c.stroke();
+            }
+            for (var i = 1; i < 40; i++) {
+                c.strokeStyle = '#ccc'; // 线条颜色
+                c.beginPath();
+                c.moveTo(i * gezi, 0);
+                c.lineTo(i * gezi, 600);
+                c.stroke();
+            }
+            for (var i = 0; i < she.length; i++) {
+                c.fillStyle = 'blue';
+                if (i == she.length - 1) {
+                    c.fillStyle = 'red';
+                }
+                c.beginPath();
+                c.rect(she[i].x * gezi, she[i].y * gezi, gezi, gezi);
+                c.closePath();
+                c.fill();
+                c.stroke();
+            }
+            drawfood();     // 出现食物
+
+            // 吃到食物
+            if (head.x == food.x && head.y == food.y) {
+                initfood();
+                food = new Food(foodx, foody);
+                drawfood();
+                //增加蛇的长度  有些小瑕疵，蛇身增长时应该是身体增长，而不是在蛇头上增长
+                var newcell = new cell(head.x, head.y, head.d);
+                switch (head.d) {
+                    case 40: {
+                        newcell.y++;
+                        break;// 下
+                    }
+                    case 39: {
+                        newcell.x++;
+                        break;// 右
+                    }
+                    case 38: {
+                        newcell.y--;
+                        break;// 上
+                    }
+                    case 37: {
+                        newcell.x--;
+                        break;// 左
+                    }
+                }
+                console.log(head);
+                she[she.length] = newcell;
+                console.log(newcell);
+                head = newcell;
+                console.log(head);
+            }
+        }
+
+        // 随机初始化食物
+        function initfood() {
+            foodx = Math.ceil(Math.random() * 39);
+            foody = Math.ceil(Math.random() * 29);
+            for (var i = 0; i < she.length; i++) {
+                if (she[i].x == foodx && she[i].y == foody) {
+                    initfood();
+                }
+            }
+        }
+        draw();
+        // 监听事件
+        document.onkeydown = function (e) {
+            //下40 ， 右边39，左边37，上38  键盘事件
+            var keyCode = e.keyCode;
+            if (head.d - keyCode != 2 && head.d - keyCode != -2 && keyCode >= 37 && keyCode <= 40) {
+                moveshe(keyCode);
+            }
+        }
+        // 控制蛇的移动方向
+        function moveshe(keyCode) {
+            var newshe = [];
+            var newcell = new cell(head.x, head.y, head.d);   // 头
+            // 身体
+            for (var i = 0; i < she.length; i++) {
+                newshe[i - 1] = she[i];
+            }
+            newshe[she.length - 1] = newcell;
+            newcell.d = keyCode;
+            switch (keyCode) {
+                case 40: {
+                    newcell.y++;
+                    break;// 下
+                }
+                case 39: {
+                    newcell.x++;
+                    break;// 右
+                }
+                case 38: {
+                    newcell.y--;
+                    break;// 上
+                }
+                case 37: {
+                    newcell.x--;
+                    break;// 左
+                }
+            }
+            she = newshe;
+            head = she[she.length - 1];
+            checkDeath(); // 调用游戏规则
+            draw();
+        }
+
+        // 游戏规则
+        function checkDeath() {
+            // 超出边框
+            if (head.x >= 40 || head.y >= 30 || head.x < 0 || head.y < 0) {
+                window.location.reload();
+                alert('你个垃圾');
+                // clearInterval(timeID);
+            }
+            // 咬到自己
+            for (var i = 0; i < she.length - 1; i++) {
+                if (head.x == she[i].x && head.y == she[i].y) {
+                    window.location.reload();
+                    alert('你个垃圾,自己都吃');
+                    // clearInterval(timeID);
+                }
+            }
+        }
+        // 蛇动起来
+        function moveclock() {
+            moveshe(head.d);
+        }
+        var isMove = false;
+        // var timeID = setInterval(moveclock, 300);
+        function beg() {
+            !isMove && setInterval(moveclock, 300);
+            isMove = true;
+        }
+
+
+
+    </script>
+</body>
+
+
+</html>

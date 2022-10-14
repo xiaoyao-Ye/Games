@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #game {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            margin: 100px auto;
+            border: 1px solid skyblue;
+            background: url(./images/bg_day.png);
+            overflow: hidden;
+        }
+
+        #bird {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            width: 34px;
+            height: 25px;
+            background: url(./images/bird0_0.png) -5px -13px;
+        }
+
+        #dadi {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 800px;
+            height: 100px;
+            background: url(./images/dadi.png);
+            z-index: 2;
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+            line-height: 100px;
+            text-align: center;
+        }
+
+        .uppipe {
+            background: url(./images/pipe1.png) bottom;
+            position: absolute;
+        }
+
+        .downpipe {
+            background: url(./images/pipe2.png) top;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 1.创建一个游戏大盒子宽高并设置背景图片和样式
+    2.创建一个小盒子放鸟并设置背景图和样式(子绝父相)
+    3.设置上下管子的样式,添加管子时直接添加样式
+    4.写一个缓动函数封装 -->
+    <div id="game">
+        <div id="bird">
+
+        </div>
+        <div id="dadi">
+
+        </div>
+    </div>
+
+
+</body>
+<script>
+
+    // js:
+    // 1.获取元素
+    // 2.声明开关
+    // 3.鸟会自动向下掉,声明一个变量保存鸟每次下降多少y
+    // 4.声明一个对象保存鸟离游戏盒子的距离xy和背景每次移动多少speedx和鸟掉下来的速度y
+    // 5.声明一个对象保存游戏背景x轴移动的距离
+    // 6.如果开关还开着,开启一个定时器背景向后移,
+    // 7.获取键盘按键,每次按鸟y往上-n
+    // 8.创建一个构造函数,动态创建添加管子
+    // 9.封装一个结束函数
+    var game = document.getElementById('game');
+    var bird = document.getElementById('bird');
+    var kg = true;
+    var g = 1;
+    var timeID = null;
+    var birds = {
+        x: bird.offsetLeft,
+        y: bird.offsetTop,
+        speedx: 5,
+        speedy: 0,
+        entity: bird
+    }
+    var bgx = {
+        x: 0
+    }
+    // 游戏未结束
+    if (kg) {
+        var timeID = setInterval(function () {
+            bgx.x -= birds.speedx;
+            game.style.backgroundPositionX = bgx.x + 'px';
+            dadi.style.backgroundPositionX = bgx.x + 'px';
+            birds.speedy += g;
+            birds.y += birds.speedy;
+            dadi.innerText = '分数:' + -bgx.x;
+
+            bird.style.top = birds.y + 'px';
+            // console.log(window.getComputedStyle(bird,null).top);
+            var diey = game.offsetHeight - bird.offsetHeight - 102;       // 大盒子手动减2px的边框,地图的100px
+
+            if (birds.y > diey) {
+                console.log('birds.y===' + birds.y);
+                console.log('diey===' + diey);
+                // bird.style.top = diey + 'px';
+
+                die();
+
+            }
+            if (birds.y < 0) {
+                bird.style.top = '0px';
+                die();
+            }
+            //添加键盘事件，实现键盘上下键控制小鸟
+            document.onkeyup = function (e) {
+                // console.log(e);
+                if (e.keyCode == 32) {
+                    birds.speedy = -10;
+                    // birds.speedy = 0;
+                    // bird.style.top = birds.y - 50 + 'px';
+                    // birds.y = bird.offsetTop;
+                }
+            }
+        }, 40)
+    }
+    function pipe(positionX) {
+        this.x = positionX;
+        this.y = '0px';
+        this.width = '52px';
+        this.height = parseInt(Math.random() * 50 + 200);
+        // 添加
+        // 上馆子
+        var pipeup = document.createElement('div');
+        pipeup.className = 'uppipe';
+        pipeup.style.left = this.x + 'px';
+        pipeup.style.top = this.y;
+        pipeup.style.width = this.width;
+        pipeup.style.height = this.height + 'px';
+        game.appendChild(pipeup);
+        // 下管子
+        var pipedown = document.createElement('div');
+        pipedown.className = 'downpipe';
+        pipedown.style.left = this.x + 'px';
+        pipedown.style.bottom = this.y;
+        pipedown.style.width = this.width;
+        pipedown.style.height = this.height + 'px';
+        game.appendChild(pipedown);
+        var t = this;
+        t.timeID = setInterval(function () {
+            t.x--;
+            if (kg) {
+                pipeup.style.left = t.x + 'px';
+                pipedown.style.left = t.x + 'px';
+            }
+            if (parseInt(game.children[2].style.left) < -40) {
+                game.removeChild(game.children[2]);
+                // t.x == 800;
+            }
+            var hehe = parseFloat(game.children[game.children.length - 1].style.left);
+            // console.log(hehe);
+            if (800 - hehe > 150) {
+                arr.push(new pipe(hehe + 150 + 100 * Math.random()));
+            }
+            var shang = (birds.x + 34 > t.x) && (birds.x < t.x + 52) && (birds.y < t.height);
+            var xia = (birds.x + 34 > t.x) && (birds.x < t.x + 52) && (birds.y + 25 > 600 - t.height);
+            if (shang || xia) {
+                die();
+            }
+            if (kg == false) {
+                clearInterval(t.timeID);
+            }
+        }, 10)
+    }
+    // 生成管子
+    var arr = [];
+    for (var i = 0; i < 4; i++) {
+        arr[i] = new pipe(i * 200 + 300 + 100 * Math.random());
+    }
+
+
+
+    // 死亡函数
+    function die() {
+        clearInterval(timeID);
+        kg = false;
+        birds.y = game.offsetHeight;
+        setTimeout(function () {
+            if (-bgx.x > 5000) {
+                alert('优秀');
+            } else if (-bgx.x > 3000) {
+                alert('还行');
+            } else {
+                alert('你个垃圾');
+            }
+        }, 41)
+    }
+
+</script>
+
+</html>

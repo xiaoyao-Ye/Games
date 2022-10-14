@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #222;
+        }
+
+        #box {
+            position: relative;
+            width: 1000px;
+            height: 1000px;
+            margin: 0px auto;
+            /* overflow: hidden; */
+        }
+
+        ul {
+            position: absolute;
+            width: 1000px;
+            height: 1000px;
+            transform-origin: center center;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        li {
+            list-style: none;
+            position: absolute;
+            left: 500px;
+            top: 485px;
+            transform-origin: left;
+            text-align: right;
+            line-height: 30px;
+            color: red;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 3s;
+            z-index: 1;
+        }
+
+        .yue li {
+            width: 80px;
+            height: 30px;
+        }
+
+        .ri li {
+            width: 165px;
+            height: 30px;
+        }
+
+        .zhou li {
+            width: 240px;
+            height: 30px;
+        }
+
+        .shi li {
+            width: 330px;
+            height: 30px;
+        }
+
+        .fen li {
+            width: 405px;
+            height: 30px;
+        }
+
+        .miao li {
+            width: 485px;
+            height: 30px;
+        }
+
+        .current {
+            font-size: 18px;
+            font-weight: 900;
+            color: blue;
+        }
+
+        .box1 {
+            position: absolute;
+            width: 0px;
+            height: 1000px;
+            border-left: 500px solid #000;
+            border-right: 500px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 100px red;
+        }
+
+        .box1:before,
+        .box1:after {
+            display: block;
+            content: "";
+            width: 200px;
+            height: 200px;
+            border: 150px solid#000;
+            border-radius: 50%;
+            background-color: #fff;
+            margin-left: -250px;
+        }
+
+        .box1:after {
+            border: 150px solid #000;
+            background-color: #fff;
+        }
+
+        .box1:before {
+            border: 150px solid #fff;
+            background-color: #000;
+        }
+
+        @keyframes div_move {
+            from {
+                transform: rotate(0deg);
+                /* 动画开始时角度 */
+            }
+
+            to {
+                transform: rotate(-3600deg);
+                /* 动画结束时角度 */
+            }
+        }
+
+        .box1 {
+            animation-name: div_move;
+            /* 动画名称 */
+            animation-duration: 600s;
+            /* 动画持续时间 */
+            /* transition: all 60s ease-in-out; */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div class="box1"></div>
+        <ul class="yue">
+            <li class="current">十二月</li>
+            <li>一月</li>
+            <li>二月</li>
+            <li>三月</li>
+            <li>四月</li>
+            <li>五月</li>
+            <li>六月</li>
+            <li>七月</li>
+            <li>八月</li>
+            <li>九月</li>
+            <li>十月</li>
+            <li>十一月</li>
+        </ul>
+        <ul class="ri">
+            <li class="current">三十一号</li>
+            <li>一号</li>
+            <li>二号</li>
+            <li>三号</li>
+            <li>四号</li>
+            <li>五号</li>
+            <li>六号</li>
+            <li>七号</li>
+            <li>八号</li>
+            <li>九号</li>
+            <li>十号</li>
+            <li>十一号</li>
+            <li>十二号</li>
+            <li>十三号</li>
+            <li>十四号</li>
+            <li>十五号</li>
+            <li>十六号</li>
+            <li>十七号</li>
+            <li>十八号</li>
+            <li>十九号</li>
+            <li>二十号</li>
+            <li>二十一号</li>
+            <li>二十二号</li>
+            <li>二十三号</li>
+            <li>二十四号</li>
+            <li>二十五号</li>
+            <li>二十六号</li>
+            <li>二十七号</li>
+            <li>二十八号</li>
+            <li>二十九号</li>
+            <li>三十号</li>
+        </ul>
+        <ul class="zhou">
+            <li class="current">星期天</li>
+            <li>星期一</li>
+            <li>星期二</li>
+            <li>星期三</li>
+            <li>星期四</li>
+            <li>星期五</li>
+            <li>星期六</li>
+        </ul>
+        <ul class="shi">
+            <li class="current">零点</li>
+            <li>一点</li>
+            <li>二点</li>
+            <li>三点</li>
+            <li>四点</li>
+            <li>五点</li>
+            <li>六点</li>
+            <li>七点</li>
+            <li>八点</li>
+            <li>九点</li>
+            <li>十点</li>
+            <li>十一点</li>
+            <li>十二点</li>
+            <li>十三点</li>
+            <li>十四点</li>
+            <li>十五点</li>
+            <li>十六点</li>
+            <li>十七点</li>
+            <li>十八点</li>
+            <li>十九点</li>
+            <li>二十点</li>
+            <li>二十一点</li>
+            <li>二十二点</li>
+            <li>二十三点</li>
+        </ul>
+        <ul class="fen">
+            <li class="current">零分</li>
+            <li>一分</li>
+            <li>二分</li>
+            <li>三分</li>
+            <li>四分</li>
+            <li>五分</li>
+            <li>六分</li>
+            <li>七分</li>
+            <li>八分</li>
+            <li>九分</li>
+            <li>十分</li>
+            <li>十一分</li>
+            <li>十二分</li>
+            <li>十三分</li>
+            <li>十四分</li>
+            <li>十五分</li>
+            <li>十六分</li>
+            <li>十七分</li>
+            <li>十八分</li>
+            <li>十九分</li>
+            <li>二十分</li>
+            <li>二十一分</li>
+            <li>二十二分</li>
+            <li>二十三分</li>
+            <li>二十四分</li>
+            <li>二十五分</li>
+            <li>二十六分</li>
+            <li>二十七分</li>
+            <li>二十八分</li>
+            <li>二十九分</li>
+            <li>三十分</li>
+            <li>三十一分</li>
+            <li>三十二分</li>
+            <li>三十三分</li>
+            <li>三十四分</li>
+            <li>三十五分</li>
+            <li>三十六分</li>
+            <li>三十七分</li>
+            <li>三十八分</li>
+            <li>三十九分</li>
+            <li>四十分</li>
+            <li>四十一分</li>
+            <li>四十二分</li>
+            <li>四十三分</li>
+            <li>四十四分</li>
+            <li>四十五分</li>
+            <li>四十六分</li>
+            <li>四十七分</li>
+            <li>四十八分</li>
+            <li>四十九分</li>
+            <li>五十分</li>
+            <li>五十一分</li>
+            <li>五十二分</li>
+            <li>五十三分</li>
+            <li>五十四分</li>
+            <li>五十五分</li>
+            <li>五十六分</li>
+            <li>五十七分</li>
+            <li>五十八分</li>
+            <li>五十九分</li>
+        </ul>
+        <ul class="miao">
+            <li class="current">零秒</li>
+            <li>一秒</li>
+            <li>二秒</li>
+            <li>三秒</li>
+            <li>四秒</li>
+            <li>五秒</li>
+            <li>六秒</li>
+            <li>七秒</li>
+            <li>八秒</li>
+            <li>九秒</li>
+            <li>十秒</li>
+            <li>十一秒</li>
+            <li>十二秒</li>
+            <li>十三秒</li>
+            <li>十四秒</li>
+            <li>十五秒</li>
+            <li>十六秒</li>
+            <li>十七秒</li>
+            <li>十八秒</li>
+            <li>十九秒</li>
+            <li>二十秒</li>
+            <li>二十一秒</li>
+            <li>二十二秒</li>
+            <li>二十三秒</li>
+            <li>二十四秒</li>
+            <li>二十五秒</li>
+            <li>二十六秒</li>
+            <li>二十七秒</li>
+            <li>二十八秒</li>
+            <li>二十九秒</li>
+            <li>三十秒</li>
+            <li>三十一秒</li>
+            <li>三十二秒</li>
+            <li>三十三秒</li>
+            <li>三十四秒</li>
+            <li>三十五秒</li>
+            <li>三十六秒</li>
+            <li>三十七秒</li>
+            <li>三十八秒</li>
+            <li>三十九秒</li>
+            <li>四十秒</li>
+            <li>四十一秒</li>
+            <li>四十二秒</li>
+            <li>四十三秒</li>
+            <li>四十四秒</li>
+            <li>四十五秒</li>
+            <li>四十六秒</li>
+            <li>四十七秒</li>
+            <li>四十八秒</li>
+            <li>四十九秒</li>
+            <li>五十秒</li>
+            <li>五十一秒</li>
+            <li>五十二秒</li>
+            <li>五十三秒</li>
+            <li>五十四秒</li>
+            <li>五十五秒</li>
+            <li>五十六秒</li>
+            <li>五十七秒</li>
+            <li>五十八秒</li>
+            <li>五十九秒</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var yue = document.getElementsByClassName('yue')[0];
+    sz(yue.children, 30);
+    var ri = document.getElementsByClassName('ri')[0];
+    sz(ri.children, 360 / 31);
+
+    var zhou = document.getElementsByClassName('zhou')[0];
+    sz(zhou.children, 360 / 7);
+
+    var shi = document.getElementsByClassName('shi')[0];
+    sz(shi.children, 360 / 24);
+
+    var fen = document.getElementsByClassName('fen')[0];
+    sz(fen.children, 360 / 60);
+
+    var miao = document.getElementsByClassName('miao')[0];
+    sz(miao.children, 360 / 60);
+
+
+
+    // 函数封装
+    function sz(x, y) {
+        for (var i = 0; i < x.length; i++) {
+            x[i].style.transform = 'rotate(' + i * y + 'deg)';
+        }
+    }
+    // 获取时间
+    var timeID = setInterval(function () {
+        var sj = new Date();
+        var month = sj.getMonth() + 1;  // 月
+        color(yue, month);
+        var date = sj.getDate();        // 天
+        color(ri, date);
+        var day = sj.getDay();          // 周
+        color(zhou, day);
+        var h = sj.getHours();          // 时
+        color(shi, h);
+        var m = sj.getMinutes();        // 分
+        color(fen, m);
+        var s = sj.getSeconds();        // 秒
+        var ms = sj.getMilliseconds();        // 秒
+
+        var hDeg = (h + m / 60 + s / 3600) * 30;
+        var mDeg = (m + s / 60) * 6;
+        color(miao, s);
+        // console.log(Date());
+        yue.style.transform = 'rotate(-' + month * (360 / 12) + 'deg)';
+        ri.style.transform = 'rotate(-' + date * (360 / 31) + 'deg)';
+        zhou.style.transform = 'rotate(-' + day * (360 / 7) + 'deg)';
+        shi.style.transform = 'rotate(-' + h * (360 / 24) + 'deg)';
+        // shi.style.transform = 'rotate(-' + hDeg + 'deg)';
+        fen.style.transform = 'rotate(-' + mDeg + 'deg)';
+        miao.style.transform = 'rotate(-' + (s + ms / 1000) * (360 / 60) + 'deg)';
+    }, 10)
+
+
+    // 颜色函数封装                                                
+    function color(ele, x) {
+        ele.children[x].className = 'current';
+        for (var i = 0; i < ele.children.length; i++) {
+            if (x != i) {
+                ele.children[i].className = '';
+            }
+        }
+    }
+
+
+
+</script>
+
+</html>
